@@ -8,7 +8,7 @@ from torch import nn, optim
 
 class VGGNet(nn.Module):
     """
-    VVGGNet model
+    VGGNet model
 
     This is modified to have 10 output channel for CIFAR10, as I cannot fit ImageNet or anything larger on my laptop.
     """
@@ -110,7 +110,9 @@ if __name__ == '__main__':
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(net.parameters(), lr=0.001)
     scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=7, gamma=0.1)
-    epochs = 10
+    epochs = 1
+
+    net.train()
 
     for epoch in range(epochs):
         for batch_idx, (data, target) in enumerate(dataloader):
@@ -131,6 +133,8 @@ if __name__ == '__main__':
 
     total = 0
     correct = 0
+
+    net.eval()
 
     for batch_idx, (data, target) in enumerate(test_dataloader):
         data, target = data.to(device), target.to(device)
